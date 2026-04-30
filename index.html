@@ -30,19 +30,21 @@
 </head>
 <body>
 
-  <h1>¿Saldrías conmigo? 💖</h1>
+<h1>¿Saldrías conmigo? 💖</h1>
 
-  <button onclick="responder('si')">Sí</button>
-  <button id="noBtn" onmouseover="moverNo()">No</button>
+<button onclick="responder('si')">Sí</button>
+<button id="noBtn" onmouseover="moverNo()">No</button>
 
-  <div id="adminPanel">
-    <h2>Respuestas:</h2>
-    <ul id="lista"></ul>
-  </div>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+<div id="adminPanel">
+  <h2>Respuestas:</h2>
+  <ul id="lista"></ul>
+</div>
 
-<script>
+<!-- Firebase MODERNO -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
 const firebaseConfig = {
   apiKey: "AIzaSyADVDUK-jFyqhcE_liEEbGzVx_kKaHRvNI",
   authDomain: "si-o-no-6b48e.firebaseapp.com",
@@ -52,16 +54,48 @@ const firebaseConfig = {
   appId: "121297882187"
 };
 
-const app = firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-function responder(valor) {
-  db.collection("respuestas").add({
-    respuesta: valor,
-    fecha: new Date()
+  window.responder = async function(valor) {
+    await addDoc(collection(db, "respuestas"), {
+      respuesta: valor,
+      fecha: new Date()
+    });
+    alert("Respuesta enviada 😎");
+  };
+
+  window.moverNo = function() {
+    const btn = document.getElementById("noBtn");
+    btn.style.top = Math.random() * window.innerHeight + "px";
+    btn.style.left = Math.random() * window.innerWidth + "px";
+  };
+
+  const PASSWORD = "1234";
+
+  document.addEventListener("keydown", async (e) => {
+    if (e.key.toLowerCase() === "p") {
+      let input = prompt("Contraseña:");
+
+      if (input === PASSWORD) {
+        document.getElementById("adminPanel").style.display = "block";
+
+        const lista = document.getElementById("lista");
+        lista.innerHTML = "";
+
+        const querySnapshot = await getDocs(collection(db, "respuestas"));
+        querySnapshot.forEach((doc) => {
+          const li = document.createElement("li");
+          li.textContent = doc.data().respuesta;
+          lista.appendChild(li);
+        });
+
+      } else {
+        alert("❌ Incorrecta");
+      }
+    }
   });
-}
 </script>
-  
+
 </body>
 </html>
