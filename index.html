@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Pregunta</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #ffe6f0;
+      margin-top: 100px;
+    }
+    button {
+      padding: 15px 25px;
+      font-size: 18px;
+      margin: 10px;
+      cursor: pointer;
+    }
+    #noBtn {
+      position: absolute;
+    }
+    #adminPanel {
+      display: none;
+      background: white;
+      padding: 20px;
+      border: 2px solid black;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>¿Saldrías conmigo? 💖</h1>
+
+  <button onclick="responder('si')">Sí</button>
+  <button id="noBtn" onmouseover="moverNo()">No</button>
+
+  <div id="adminPanel">
+    <h2>Respuestas:</h2>
+    <ul id="lista"></ul>
+  </div>
+
+</body>
+</html>
