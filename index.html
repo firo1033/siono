@@ -39,6 +39,29 @@
     <h2>Respuestas:</h2>
     <ul id="lista"></ul>
   </div>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
 
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyADVDUK-jFyqhcE_liEEbGzVx_kKaHRvNI",
+  authDomain: "si-o-no-6b48e.firebaseapp.com",
+  projectId: "si-o-no-6b48e",
+  storageBucket: "si-o-no-6b48e.firebasestorage.app",
+  messagingSenderId: "121297882187",
+  appId: "121297882187"
+};
+
+const app = firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+
+function responder(valor) {
+  db.collection("respuestas").add({
+    respuesta: valor,
+    fecha: new Date()
+  });
+}
+</script>
+  
 </body>
 </html>
